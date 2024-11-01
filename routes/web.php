@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,6 +20,14 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('/checkout', [OrderController::class, 'store'])->name('checkout.store');
+
+Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
